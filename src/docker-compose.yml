@@ -1,0 +1,29 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:22.0.5
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: dev-mem
+      KC_METRICS_ENABLED: 'true'
+      KC_FEATURES: token-exchange
+    volumes:
+      - ./realm-export:/opt/keycloak/data/import
+    command: >
+      start-dev
+      --import-realm
+    ports:
+      - "8080:8080"
+    restart: always
+
+  webapp:
+    image: ${REGISTRY:-multiTenantKeycloak}/webapp:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: WebApp/WebApp/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+    ports:
+      - "5000:80"
+    restart: always

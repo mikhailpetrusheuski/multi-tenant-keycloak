@@ -1,0 +1,26 @@
+{
+  "realm": "tenantA",
+  "enabled": true,
+  "users": [
+    {
+      "username": "testA",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "TestA123!",
+          "temporary": false
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "admin_portal",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "SECRET_A",
+      "redirectUris": ["*"]
+    }
+  ]
+}
